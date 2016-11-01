@@ -5,14 +5,14 @@ import java.io.*;
 
 
 public class Node {
-    private int value;
+    private int value, state;
     private ArrayList<Node> children = new ArrayList<Node>();
-    private int state = 0;
 
     Node() {};
 
     public Node(int v) {
         this.value = v;
+        this.state = 0;
     }
 
     public int getValue() {
@@ -35,8 +35,15 @@ public class Node {
         this.state++;
     }
 
-    public void decState() {
-        this.state--;
+    public ArrayList<Node> getUntravelledChildren() {
+        ArrayList<Node> result = new ArrayList<Node>();
+        for ( Node child : this.children ) {
+            if ( child.getState() == 0 ) {
+                result.add(child);
+            }
+        }
+        if ( result.size() > 0 ) return result;
+        else return null;
     }
 
     public String toString() {
