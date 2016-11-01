@@ -78,7 +78,7 @@ public class Parser {
         this.clausesNo = Integer.parseInt(config[3]);
         this.clauses = new int[this.clausesNo][];
         //parse clauses
-        String[] clausesString = clauses.split("0");
+        String[] clausesString = clauses.split(" 0");
         String[] clauseMembers = new String[this.varNo];
         int[] clausesVars;
         for ( int i = 0; i < clausesString.length; i++ ) {
