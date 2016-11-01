@@ -65,20 +65,20 @@ public class Parser {
         String comments = "", clauses = "", configLine = "";
 
         for ( String line : lines ) {
-            if ( line.matches("^c .*$") ) comments += line.replaceFirst("c +", "") + "\n";
-            else if ( line.matches("^p .*$") ) configLine = line;
-            else if ( line.matches("^(-?\\d *)*-?\\d$") ) clauses += line + " ";
+            if ( line.matches("^c\\s.*$") ) comments += line.replaceFirst("c +", "") + "\n";
+            else if ( line.matches("^p\\s.*$") ) configLine = line;
+            else if ( line.matches("^(-?\\d\\s*)*-?\\d$") ) clauses += line + " ";
         }
         //parse comments
         this.comments = comments.split("\n");
         //parse file config
-        String[] config = configLine.split(" +");
+        String[] config = configLine.split("\\s+");
         this.fileType = config[1];
         this.varNo = Integer.parseInt(config[2]);
         this.clausesNo = Integer.parseInt(config[3]);
         this.clauses = new int[this.clausesNo][];
         //parse clauses
-        String[] clausesString = clauses.split(" 0");
+        String[] clausesString = clauses.split("\\s0");
         String[] clauseMembers;
         int[] clausesVars;
         for ( int i = 0; i < clausesString.length; i++ ) {
