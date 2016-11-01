@@ -20,31 +20,3 @@ public class TwoSat {
         return "FORMULA SATISFIABLE";
     }
 }
-
-class Node {
-    private int value;
-    private ArrayList<Node> children;
-    private int state = 0;
-
-    Node() {};
-
-    Node(int v) {
-        this.value = v;
-    }
-
-    protected void addAChild(Node n) {
-        this.children.add(n);
-    }
-
-    protected void incState() {
-        this.state++;
-    }
-
-    protected void decState() {
-        this.state--;
-    }
-
-    public String toString() {
-        return "";
-    }
-}

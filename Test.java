@@ -1,7 +1,5 @@
 import java.util.*;
-import components.Parser;
-import components.TwoSat;
-import components.InvalidInputException;
+import components.*;
 
 class Test {
 
