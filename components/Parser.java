@@ -45,8 +45,7 @@ public class Parser {
             String line = br.readLine();
 
             while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
+                sb.append(line + "\n");
                 line = br.readLine();
             }
             everything = sb.toString();
