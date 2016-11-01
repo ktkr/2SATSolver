@@ -40,6 +40,18 @@ public class Node {
     }
 
     public String toString() {
-        return "";
+        List<Integer> childVals = new ArrayList<Integer>();
+        for ( Node child : this.children ) {
+            childVals.add(child.value);
+        }
+        return "node(" + this.value + "): " + Arrays.toString(childVals.toArray());
+    }
+
+    public Node clone() {
+        Node clonedNode = new Node(this.value);
+        for ( Node child : this.children ) {
+            clonedNode.addAChild(child);
+        }
+        return clonedNode;
     }
 }
