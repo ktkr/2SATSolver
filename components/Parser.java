@@ -79,16 +79,20 @@ public class Parser {
         this.clauses = new int[this.clausesNo][];
         //parse clauses
         String[] clausesString = clauses.split(" 0");
-        String[] clauseMembers = new String[this.varNo];
+        String[] clauseMembers;
         int[] clausesVars;
         for ( int i = 0; i < clausesString.length; i++ ) {
             clauseMembers = clausesString[i].trim().split(" +");
             clausesVars = new int[clauseMembers.length];
-            this.clauses[i] = new int[clauseMembers.length];
-            for ( int j = 0; j < clauseMembers.length; j++ ) {
-                clausesVars[j] = Integer.parseInt(clauseMembers[j]);
+            if ( clauseMembers.length == 1 && clauseMembers[0].equals("") ) {
+                this.clauses[i] = new int[0];
+            } else {
+                this.clauses[i] = new int[clauseMembers.length];
+                for ( int j = 0; j < clauseMembers.length; j++ ) {
+                    clausesVars[j] = Integer.parseInt(clauseMembers[j]);
+                }
+                this.clauses[i] = clausesVars.clone();
             }
-            this.clauses[i] = clausesVars.clone();
         }
     }
 
