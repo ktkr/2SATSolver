@@ -3,7 +3,7 @@ import components.*;
 
 class Test {
 
-    public static void testCase(String filePath) {
+    public static void testCase(int caseNo, String filePath) {
         Parser p = new Parser(filePath);
         // System.out.println(p);
         TwoSat t = new TwoSat();
@@ -15,11 +15,12 @@ class Test {
         } finally {
             System.out.println(t.solve());
             final long endTime = System.currentTimeMillis();
-            System.out.println("Total execution time: " + (endTime - startTime) );
+            System.out.println("Total execution time of case " + caseNo + ": " + (endTime - startTime) );
         }
     }
 
     public static void main(String[] args) {
-        testCase("largeSat.cnf");
+        testCase(0, "file.txt");
+        testCase(1, "largeSat.cnf");
     }
 }

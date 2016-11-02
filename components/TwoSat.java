@@ -112,8 +112,15 @@ public class TwoSat {
     }
 
     public String solve() {
+        long startTime = System.currentTimeMillis();
         this.dfs(graph.get(0));
+        long endTime = System.currentTimeMillis();
+        System.out.println("time taken to dfs: " + (endTime - startTime));
+        startTime = System.currentTimeMillis();
         this.buildSCC();
+        endTime = System.currentTimeMillis();
+        System.out.println("time taken to build SCC: " + (endTime - startTime));
+        startTime = System.currentTimeMillis();
         for ( int j = this.scc.size() - 1; j > -1; j-- ) {
             ArrayList<Integer> s = this.scc.get(j);
             for ( int i : s ) {
@@ -122,11 +129,16 @@ public class TwoSat {
                 else if ( i < 0 && !output.containsKey(0-i) ) output.put(0-i, 0);
             }
         }
+        endTime = System.currentTimeMillis();
+        System.out.println("time taken to build output: " + (endTime - startTime));
+        startTime = System.currentTimeMillis();
         String result = "";
         for ( int i : output.keySet() ) {
             result += output.get(i) + " ";
         }
         System.out.println("output: " + result);
+        endTime = System.currentTimeMillis();
+        System.out.println("time taken to print result string: " + (endTime - startTime));
         return "FORMULA SATISFIABLE";
     }
 }
