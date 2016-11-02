@@ -17,13 +17,13 @@ public class NonEmptyImList<E> implements ImList<E> {
     /**
      * abstraction function
      * A(this) = <element> ^ A(rest)
-     * 
+     *
      */
 
     void checkRep () {
         assert element != null: "NonEmptyList: Rep invariant, element non null";
         assert rest != null: "NonEmptyList: Rep invariant, rest non null";
-        assert size == rest.size() + 1: "NonEmptyList: Rep invariant, size";        
+        assert size == rest.size() + 1: "NonEmptyList: Rep invariant, size";
     }
 
     private NonEmptyImList (E e, ImList<E> r) {
@@ -43,7 +43,7 @@ public class NonEmptyImList<E> implements ImList<E> {
     public ImList<E> add(E e) {
         assert e != null: "NonEmptyList.add(null)";
         return new NonEmptyImList<E> (e, this);
-//        for student experiment        
+//        for student experiment
 //        return new NonEmptyList<E> (e, copy(this));
     }
 
@@ -75,7 +75,7 @@ public class NonEmptyImList<E> implements ImList<E> {
     public int size () {
         return size;
     }
-    
+
     public boolean isEmpty () {
         return false;
     }
@@ -83,19 +83,20 @@ public class NonEmptyImList<E> implements ImList<E> {
     public Iterator<E> iterator () {
         return new ImListIterator<E>(this);
     }
-    
+
 
     /**
      * Compares the specified object with this list for equality.  Returns
      * <tt>true</tt> if the specified object is also a list, and the two lists
      * have the same elements in the same order.
-     * 
+     *
      * @return all i | e_i.equals(eo_i) where this list = [e_0,...,e_n] and o = [eo_0,...,eo_n]
      */
     @Override
     public boolean equals (Object o) {
         if (o == this) return true;
         if (!(o instanceof ImList)) return false;
+        @SuppressWarnings("rawtypes")
         ImList l = (ImList) o;
         if (l.size() != size()) return false;
         return first().equals(l.first()) && rest().equals(l.rest());

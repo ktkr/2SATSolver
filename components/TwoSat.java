@@ -4,8 +4,8 @@ import java.util.*;
 import java.io.*;
 
 public class TwoSat {
-    private Graph graph = new Graph();
-    private Graph transposedGraph = new Graph();
+    private HashMap<Integer, Node> graph = new HashMap<Integer, Node>();
+    private HashMap<Integer, Node> transposedGraph = new HashMap<Integer, Node>();
     private ArrayList<Integer> stack = new ArrayList<Integer>();
     private ArrayList<ArrayList<Integer>> scc = new ArrayList<ArrayList<Integer>>();
     private HashMap<Integer, Integer> output = new HashMap<Integer, Integer>();
@@ -20,51 +20,51 @@ public class TwoSat {
             if ( c.length != 2 ) throw new InvalidInputException();
         }
         //build Graph
-        graph.add(new Node(0)); //virtual almighty root node
-        // transposedGraph.add(new Node(0)); //virtual almighty root node
+        graph.put(0, new Node(0)); //virtual almighty root node
         int flippedFirst, flippedSecond;
+        final long startTime = System.currentTimeMillis();
         for ( int[] c : p.getClauses() ) {
             //instantiate new nodes and add to graph if not in yet
             Node nodeFromFirst = new Node(c[0]);
-            if ( graph.indexOf(nodeFromFirst) == -1 ) {
-                graph.add(nodeFromFirst.clone());
-                transposedGraph.add(nodeFromFirst.clone());
-                // transposedGraph.getNodeFromVal(0).addAChild(transposedGraph.getNodeFromVal(c[0])); //connect yo virtual root
+            if ( !graph.containsKey(c[0]) ) {
+                graph.put(c[0], nodeFromFirst.clone());
+                transposedGraph.put(c[0], nodeFromFirst.clone());
             }
             Node nodeFromSecond = new Node(c[1]);
-            if ( graph.indexOf(nodeFromSecond) == -1 ) {
-                graph.add(nodeFromSecond.clone());
-                transposedGraph.add(nodeFromSecond.clone());
-                // transposedGraph.getNodeFromVal(0).addAChild(transposedGraph.getNodeFromVal(c[1])); //connect yo virtual root
+            if ( !graph.containsKey(c[1]) ) {
+                graph.put(c[1], nodeFromSecond.clone());
+                transposedGraph.put(c[1], nodeFromSecond.clone());
             }
             flippedFirst = 0 - c[0];
             Node nodeFromFlippedFirst = new Node(flippedFirst);
-            if ( graph.indexOf(nodeFromFlippedFirst) == -1 ) {
-                graph.add(nodeFromFlippedFirst.clone());
-                graph.getNodeFromVal(0).addAChild(graph.getNodeFromVal(flippedFirst)); //connect to virtual root
-                transposedGraph.add(nodeFromFlippedFirst.clone());
+            if ( !graph.containsKey(flippedFirst) ) {
+                graph.put(flippedFirst, nodeFromFlippedFirst.clone());
+                graph.get(0).addAChild(graph.get(flippedFirst)); //connect to virtual root
+                transposedGraph.put(flippedFirst, nodeFromFlippedFirst.clone());
             }
             flippedSecond = 0 - c[1];
             Node nodeFromFlippedSecond = new Node(flippedSecond);
-            if ( graph.indexOf(nodeFromFlippedSecond) == -1 ) {
-                graph.add(nodeFromFlippedSecond.clone());
-                graph.getNodeFromVal(0).addAChild(graph.getNodeFromVal(flippedSecond)); //connect to virtual root
-                transposedGraph.add(nodeFromFlippedSecond.clone());
+            if ( !graph.containsKey(flippedSecond) ) {
+                graph.put(flippedSecond, nodeFromFlippedSecond.clone());
+                graph.get(0).addAChild(graph.get(flippedSecond)); //connect to virtual root
+                transposedGraph.put(flippedSecond, nodeFromFlippedSecond.clone());
             }
             //add children to nodes
-            if ( graph.getNodeFromVal(flippedFirst).getChildren().indexOf(graph.getNodeFromVal(c[1])) == -1 ){
-                graph.getNodeFromVal(flippedFirst).addAChild(graph.getNodeFromVal(c[1]));
+            if ( graph.get(flippedFirst).getChildren().indexOf(graph.get(c[1])) == -1 ){
+                graph.get(flippedFirst).addAChild(graph.get(c[1]));
             }
-            if ( graph.getNodeFromVal(flippedSecond).getChildren().indexOf(graph.getNodeFromVal(c[0])) == -1 ) {
-                graph.getNodeFromVal(flippedSecond).addAChild(graph.getNodeFromVal(c[0]));
+            if ( graph.get(flippedSecond).getChildren().indexOf(graph.get(c[0])) == -1 ) {
+                graph.get(flippedSecond).addAChild(graph.get(c[0]));
             }
-            if ( transposedGraph.getNodeFromVal(c[1]).getChildren().indexOf(transposedGraph.getNodeFromVal(flippedFirst)) == -1 ) {
-                transposedGraph.getNodeFromVal(c[1]).addAChild(transposedGraph.getNodeFromVal(flippedFirst));
+            if ( transposedGraph.get(c[1]).getChildren().indexOf(transposedGraph.get(flippedFirst)) == -1 ) {
+                transposedGraph.get(c[1]).addAChild(transposedGraph.get(flippedFirst));
             }
-            if ( transposedGraph.getNodeFromVal(c[0]).getChildren().indexOf(transposedGraph.getNodeFromVal(flippedSecond)) == -1 ) {
-                transposedGraph.getNodeFromVal(c[0]).addAChild(transposedGraph.getNodeFromVal(flippedSecond));
+            if ( transposedGraph.get(c[0]).getChildren().indexOf(transposedGraph.get(flippedSecond)) == -1 ) {
+                transposedGraph.get(c[0]).addAChild(transposedGraph.get(flippedSecond));
             }
         }
+        final long endTime = System.currentTimeMillis();
+        System.out.println("generating graph time taken: " + (endTime - startTime));
         //instantiate output
         // this.output = new int[p.getVarNo()];
     }
@@ -93,7 +93,7 @@ public class TwoSat {
             for ( int i = 1; i <= counter; i++ ) {
                 currentVal = stack.remove(stack.size() - 1);
             }
-            currentNode = transposedGraph.getNodeFromVal(currentVal);
+            currentNode = transposedGraph.get(currentVal);
             currentNode.incState();
             currentTrace.add(currentNode.getValue());
             counter = 0;
@@ -112,7 +112,7 @@ public class TwoSat {
     }
 
     public String solve() {
-        this.dfs(graph.getNodeFromVal(0));
+        this.dfs(graph.get(0));
         this.buildSCC();
         for ( int j = this.scc.size() - 1; j > -1; j-- ) {
             ArrayList<Integer> s = this.scc.get(j);
