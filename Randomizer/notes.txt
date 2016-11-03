@@ -1,0 +1,27 @@
+
+Task: Use a random selection method to "brute force" through the boolean satisfiability problem (2-SAT only)
+1.Start with a random truth assignment.
+2.Search for an unsatisfied clause - where both literals are false.
+3.Randomly switch a literal value and repeat step 2. until all clauses are satisfied or when loop occurred.
+4.Exit and return truth assignment. (Record time)
+
+
+if Node.state == 1 ignore.
+else if Node.state == 0 check literals , flip one.
+reevaluate everything and repeat
+if node.state ==1 for all, return.
+else break loop after X iterations? Assuming we take n^2-i^2 "flips" on average (upper bounded n^2)
+
+import java.util.concurrent.ThreadLocalRandom;
+
+// nextInt is normally exclusive of the top value,
+// so add 1 to make it inclusive
+ThreadLocalRandom.current().nextInt(min, max + 1);
+
+min=0
+max=1
+
+Randomly choose the variable to flipflop too.
+
+Randomizer.java
+
