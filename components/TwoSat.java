@@ -7,7 +7,7 @@ public class TwoSat {
     private HashMap<Integer, Node> graph = new HashMap<Integer, Node>();
     private HashMap<Integer, Node> transposedGraph = new HashMap<Integer, Node>();
     private ArrayList<Integer> stack = new ArrayList<Integer>();
-    private ArrayList<ArrayList<Integer>> scc = new ArrayList<ArrayList<Integer>>();
+    private ArrayList<ArrayList<Integer>> sccStack = new ArrayList<ArrayList<Integer>>();
     private HashMap<Integer, Integer> output = new HashMap<Integer, Integer>();
 
     public TwoSat() {};
@@ -88,26 +88,26 @@ public class TwoSat {
     public void buildSCC() {
         int currentVal = stack.remove(stack.size() - 1), counter = 0;
         Node currentNode;
-        ArrayList<Integer> currentTrace = new ArrayList<Integer>();
+        ArrayList<Integer> currentSCC = new ArrayList<Integer>();
         while ( stack.size() > 0 ) {
             for ( int i = 1; i <= counter; i++ ) {
                 currentVal = stack.remove(stack.size() - 1);
             }
             currentNode = transposedGraph.get(currentVal);
             currentNode.incState();
-            currentTrace.add(currentNode.getValue());
+            currentSCC.add(currentNode.getValue());
             counter = 0;
             while ( currentNode.getUntravelledChildren() != null ) {
                 currentNode.incState();
                 currentNode = currentNode.getUntravelledChildren().get(0);
-                currentTrace.add(currentNode.getValue());
+                currentSCC.add(currentNode.getValue());
                 counter++;
             }
             if ( counter == 0 ) {
                 counter++;
             }
-            scc.add(new ArrayList<Integer>(currentTrace));
-            currentTrace.clear();
+            sccStack.add(new ArrayList<Integer>(currentSCC));
+            currentSCC.clear();
         }
     }
 
@@ -121,8 +121,8 @@ public class TwoSat {
         endTime = System.currentTimeMillis();
         System.out.println("time taken to build SCC: " + (endTime - startTime));
         startTime = System.currentTimeMillis();
-        for ( int j = this.scc.size() - 1; j > -1; j-- ) {
-            ArrayList<Integer> s = this.scc.get(j);
+        for ( int j = this.sccStack.size() - 1; j > -1; j-- ) {
+            ArrayList<Integer> s = this.sccStack.get(j);
             for ( int i : s ) {
                 if ( s.indexOf( 0 - i ) != -1 ) return "FORMULA UNSATISFIABLE";
                 else if ( i > 0 && !output.containsKey(i) ) output.put(i, 1);
