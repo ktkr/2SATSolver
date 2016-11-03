@@ -20,7 +20,6 @@ class Test {
     }
 
     public static void main(String[] args) {
-        testCase(0, "file.txt");
-        testCase(1, "largeSat.cnf");
+        testCase(0, "largeSat.cnf");
     }
 }

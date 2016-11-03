@@ -1,4 +1,4 @@
-package sutd.twosat;
+package twosat;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -148,7 +148,7 @@ public class Randomizer {
         String printOut = "";
         for (int j=1;j<=this.varNo;j++){
             this.assignment.get(String.valueOf(j));
-            printOut = printOut + "{" + String.valueOf(j) + " : " + this.assignment.get(String.valueOf(j)).toString() + "}";
+            printOut = printOut + this.assignment.get(String.valueOf(j)).toString() + " ";
         }
         return printOut;
     }

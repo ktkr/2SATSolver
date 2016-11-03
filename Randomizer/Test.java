@@ -1,4 +1,4 @@
-package sutd.twosat;
+import twosat.*;
 
 
 class Test {
@@ -34,7 +34,7 @@ class Test {
 //        testCase("C:\\Users\\Acer\\AndroidStudioProjects\\TwoSat\\app\\src\\main\\java\\sutd\\twosat\\largeSat.cnf");
         long average = 0;
         for (int k = 0; k<100;k++){
-            average += testRandom("C:\\Users\\Acer\\AndroidStudioProjects\\TwoSat\\app\\src\\main\\java\\sutd\\twosat\\largeSat.cnf");
+            average += testRandom("./largeSat.cnf");
         }
 
         System.out.println("Average running time: "+average/100);

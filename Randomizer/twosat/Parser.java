@@ -1,4 +1,4 @@
-package sutd.twosat;
+package twosat;
 import java.util.*;
 import java.io.*;
 import java.util.regex.Matcher;
