@@ -34,7 +34,6 @@ public class Randomizer {
         }
     }
 
-
     public int randomBool(){
         return ThreadLocalRandom.current().nextInt(0,2);
     }

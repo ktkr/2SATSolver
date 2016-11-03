@@ -20,16 +20,24 @@ class Test {
 //        }
 //    }
 
-    public static void testRandom(String filePath){
+    public static long testRandom(String filePath){
         Parser p = new Parser(filePath);
         Randomizer r = new Randomizer(p.getClauses(),p.getVarNo());
+        long startTime = System.currentTimeMillis();
         r.run();
+        long endTime = System.currentTimeMillis();
+        return endTime - startTime;
     }
 
 
     public static void main(String[] args) {
 //        testCase("C:\\Users\\Acer\\AndroidStudioProjects\\TwoSat\\app\\src\\main\\java\\sutd\\twosat\\largeSat.cnf");
-            testRandom("C:\\Users\\Acer\\AndroidStudioProjects\\TwoSat\\app\\src\\main\\java\\sutd\\twosat\\largeSat.cnf");
+        long average = 0;
+        for (int k = 0; k<100;k++){
+            average += testRandom("C:\\Users\\Acer\\AndroidStudioProjects\\TwoSat\\app\\src\\main\\java\\sutd\\twosat\\largeSat.cnf");
+        }
+
+        System.out.println("Average running time: "+average/100);
 
     }
 }
